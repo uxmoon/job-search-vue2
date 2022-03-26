@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <b-col md="6" lg="3">
     <b-card
-      title="Job Card"
+      :title="name"
       img-src="https://picsum.photos/600/300/?image=25"
       img-alt="Image"
       img-top
@@ -13,11 +13,12 @@
       </b-card-text>
       <b-button href="#" variant="primary">Go somewhere</b-button>
     </b-card>
-  </div>
+  </b-col>
 </template>
 
 <script>
 export default {
   name: "JobCard",
+  props: ["name"],
 };
 </script>
