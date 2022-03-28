@@ -2,7 +2,7 @@
   <div class="home">
     <b-container>
       <b-row>
-        <job-card v-for="job in jobs" :key="job.id" :name="job.name" />
+        <job-card v-for="job in displayJobs" :key="job.id" :name="job.name" />
       </b-row>
       <b-pagination
         v-model="currentPage"
@@ -12,6 +12,7 @@
         prev-text="Prev"
         next-text="Next"
         last-text="Last"
+        v-on:input="paginate(currentPage)"
       ></b-pagination>
     </b-container>
   </div>
@@ -26,6 +27,7 @@ export default {
   data() {
     return {
       jobs: [],
+      displayJobs: [],
       currentPage: 1,
       perPage: 3,
       rows: 1,
@@ -38,9 +40,15 @@ export default {
       const val = await res.json();
       // set 'jobs' data
       this.jobs = val;
+      this.displayJobs = val.slice(0, 3);
       console.log(val);
       // set pagination rows
       this.rows = this.jobs.length;
+    },
+    paginate(currentPage) {
+      // arr manipulation for pagination
+      const start = (currentPage - 1) * this.perPage;
+      this.displayJobs = this.jobs.slice(start, start + this.perPage);
     },
   },
   created() {
