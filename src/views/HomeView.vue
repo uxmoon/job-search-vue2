@@ -20,13 +20,17 @@
 
 <script>
 import JobCard from "../components/JobCard.vue";
+import { mapGetters } from "vuex";
 
 export default {
   name: "HomeView",
   components: { "job-card": JobCard },
+  computed: {
+    ...mapGetters(["jobs"]),
+  },
   data() {
     return {
-      jobs: [],
+      // jobs: [],
       displayJobs: [],
       currentPage: 1,
       perPage: 3,
@@ -35,13 +39,15 @@ export default {
   },
   methods: {
     async fetchData() {
+      await this.$store.dispatch("fetchJobs");
+      console.log(this.$store.getters.jobs);
       // fetch jobs
-      const res = await fetch("jobs.json");
-      const val = await res.json();
+      // const res = await fetch("jobs.json");
+      // const val = await res.json();
       // set 'jobs' data
-      this.jobs = val;
-      this.displayJobs = val.slice(0, 3);
-      console.log(val);
+      // this.jobs = this.jobs;
+      this.displayJobs = this.jobs.slice(0, 3);
+      console.log(this.jobs);
       // set pagination rows
       this.rows = this.jobs.length;
     },
